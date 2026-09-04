@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16467a">
+  <meta name="description" content="Sistema do Escritório de Gestão de Projetos do TJRS.">
+  <meta name="robots" content="noindex,nofollow">
+  <title>SISEGP — Escritório de Gestão de Projetos | TJRS</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar__left">
+        <button class="icon-button mobile-only" id="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" title="Abrir menu">
+          <span data-icon="menu" aria-hidden="true"></span>
+        </button>
+        <a class="brand" href="#/dashboard" aria-label="SISEGP — página inicial">
+          <span class="brand__mark" aria-hidden="true"><img src="assets/images/tjrs-logo.png" alt=""></span>
+          <span><strong>SISEGP</strong><small>Escritório de Gestão de Projetos</small></span>
+        </a>
+      </div>
+      <img class="topbar__logo" src="assets/images/tjrs-logo.png" alt="Tribunal de Justiça do Rio Grande do Sul">
+      <div class="topbar__actions">
+        <button class="icon-button" id="global-search-toggle" type="button" aria-label="Pesquisar no sistema" title="Pesquisa global"><span data-icon="search"></span></button>
+        <button class="icon-button notification-button" id="notifications-toggle" type="button" aria-label="Abrir notificações, 5 não lidas" title="Notificações"><span data-icon="bell"></span><b>5</b></button>
+        <button class="profile-button" id="profile-toggle" type="button" aria-label="Abrir menu do perfil" aria-expanded="false"><span class="avatar">AC</span><span class="profile-copy"><strong>Antônio Cepa</strong><small>Chefe do EGP</small></span><span data-icon="chevron-down"></span></button>
+      </div>
+    </header>
+
+    <aside class="sidebar" id="sidebar" aria-label="Navegação principal">
+      <a class="sidebar-brand" href="#/dashboard" aria-label="Tribunal de Justiça do Rio Grande do Sul — Página inicial">
+        <img src="assets/images/tjrs-logo.png" alt="">
+        <span><strong>Tribunal de Justiça</strong><small>Rio Grande do Sul</small></span>
+      </a>
+      <nav>
+        <a class="nav-item" data-route="dashboard" href="#/dashboard"><span data-icon="home"></span><span>Página inicial</span></a>
+        <a class="nav-item" data-route="initiatives" href="#/initiatives"><span data-icon="briefcase"></span><span>Iniciativas</span><b class="nav-count" id="nav-initiative-count">200</b></a>
+        <a class="nav-item" data-route="artifacts" href="#/artifacts"><span data-icon="file-text"></span><span>Modelos de Artefatos</span></a>
+        <a class="nav-item" data-route="repository" href="#/repository"><span data-icon="folder"></span><span>Repositório do EGP</span></a>
+
+        <button class="nav-item nav-group-toggle" type="button" data-group="reports" aria-expanded="true"><span data-icon="bar-chart"></span><span>Relatórios</span><span class="nav-chevron" data-icon="chevron-down"></span></button>
+        <div class="nav-submenu" data-submenu="reports">
+          <a class="nav-item" data-route="reports" href="#/reports"><span data-icon="pie-chart"></span><span>Relatórios gerais</span></a>
+          <a class="nav-item" data-route="critical" href="#/critical"><span data-icon="alert-triangle"></span><span>Iniciativas críticas</span></a>
+          <a class="nav-item" data-route="impediments" href="#/impediments"><span data-icon="ban"></span><span>Com impedimentos</span></a>
+          <a class="nav-item" data-route="gp-report" href="#/gp-report"><span data-icon="users"></span><span>Relatórios por GP</span></a>
+        </div>
+
+        <p class="nav-label">Administração</p>
+        <a class="nav-item" data-route="logs" href="#/logs"><span data-icon="activity"></span><span>Logs</span></a>
+        <a class="nav-item" data-route="managers" href="#/managers"><span data-icon="user-cog"></span><span>Cadastro de GP</span></a>
+        <a class="nav-item" data-route="settings" href="#/settings"><span data-icon="settings"></span><span>Configurações</span></a>
+        <a class="nav-item" data-route="governance" href="#/governance"><span data-icon="landmark"></span><span>Governança</span></a>
+      </nav>
+      <div class="sidebar__footer">
+        <button class="nav-item" id="help-button" type="button"><span data-icon="help-circle"></span><span>Ajuda e tour guiado</span></button>
+      </div>
+    </aside>
+
+    <div class="sidebar-scrim" id="sidebar-scrim"></div>
+    <main id="conteudo" class="main-content" tabindex="-1">
+      <div class="loading-state" aria-live="polite"><span class="spinner"></span><p>Preparando o portfólio…</p></div>
+    </main>
+  </div>
+
+  <div class="command-search" id="global-search" hidden>
+    <div class="command-search__backdrop" data-close="global-search"></div>
+    <section class="command-search__dialog" role="dialog" aria-modal="true" aria-labelledby="search-title">
+      <h2 class="sr-only" id="search-title">Pesquisa global</h2>
+      <label class="command-search__input"><span data-icon="search"></span><input id="global-search-input" type="search" placeholder="Buscar iniciativas, documentos ou pessoas…" autocomplete="off"><kbd>Esc</kbd></label>
+      <div id="global-search-results" class="command-results"></div>
+      <footer><span><kbd>↑</kbd><kbd>↓</kbd> para navegar</span><span><kbd>Enter</kbd> para abrir</span></footer>
+    </section>
+  </div>
+
+  <aside class="drawer" id="notifications-drawer" aria-labelledby="notifications-title" hidden>
+    <div class="drawer__header"><div><p class="eyebrow">Central de alertas</p><h2 id="notifications-title">Notificações</h2></div><button class="icon-button" type="button" data-close="notifications-drawer" aria-label="Fechar"><span data-icon="x"></span></button></div>
+    <div class="drawer__body" id="notification-list"></div>
+    <div class="drawer__footer"><button class="button button--secondary button--full" id="mark-read" type="button">Marcar todas como lidas</button></div>
+  </aside>
+
+  <div class="modal" id="app-modal" hidden>
+    <div class="modal__backdrop" data-close="app-modal"></div>
+    <section class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <header class="modal__header"><div><p class="eyebrow" id="modal-eyebrow">SISEGP</p><h2 id="modal-title">Confirmação</h2></div><button class="icon-button" type="button" data-close="app-modal" aria-label="Fechar"><span data-icon="x"></span></button></header>
+      <div class="modal__body" id="modal-body"></div>
+      <footer class="modal__footer" id="modal-footer"></footer>
+    </section>
+  </div>
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
