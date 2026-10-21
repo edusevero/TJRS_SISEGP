@@ -7,6 +7,9 @@
   <meta name="description" content="Sistema do Escritório de Gestão de Projetos do TJRS.">
   <meta name="robots" content="noindex,nofollow">
   <title>SISEGP — Escritório de Gestão de Projetos | TJRS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
@@ -23,30 +26,34 @@
           <span><strong>SISEGP</strong><small>Escritório de Gestão de Projetos</small></span>
         </a>
       </div>
-      <img class="topbar__logo" src="assets/images/tjrs-logo.png" alt="Tribunal de Justiça do Rio Grande do Sul">
+      <img class="topbar__logo" src="assets/images/tjrs-modelo-logo.png" alt="Tribunal de Justiça do Rio Grande do Sul">
       <div class="topbar__actions">
         <button class="icon-button" id="global-search-toggle" type="button" aria-label="Pesquisar no sistema" title="Pesquisa global"><span data-icon="search"></span></button>
-        <button class="icon-button notification-button" id="notifications-toggle" type="button" aria-label="Abrir notificações, 5 não lidas" title="Notificações"><span data-icon="bell"></span><b>5</b></button>
-        <button class="profile-button" id="profile-toggle" type="button" aria-label="Abrir menu do perfil" aria-expanded="false"><span class="avatar">AC</span><span class="profile-copy"><strong>Antônio Cepa</strong><small>Chefe do EGP</small></span><span data-icon="chevron-down"></span></button>
+        <button class="icon-button notification-button" id="notifications-toggle" type="button" aria-label="Abrir central de notificações" title="Notificações"><span data-icon="bell"></span><b hidden>0</b></button>
+        <div class="profile-container">
+          <button class="profile-button" id="profile-toggle" type="button" aria-label="Abrir menu de Antônio Cepa" aria-expanded="false" aria-controls="profile-menu"><span class="avatar">AC</span><span class="profile-copy"><strong>Antônio Cepa</strong><small>Chefe do EGP</small></span><span data-icon="chevron-down"></span></button>
+          <div class="profile-menu" id="profile-menu" hidden>
+            <p><strong>Antônio Cepa</strong><small>Chefe do EGP</small></p>
+            <a href="#/action/profile">Meu perfil</a>
+            <button id="logout-button" type="button"><span data-icon="log-out"></span>Sair</button>
+          </div>
+        </div>
       </div>
     </header>
 
     <aside class="sidebar" id="sidebar" aria-label="Navegação principal">
       <a class="sidebar-brand" href="#/dashboard" aria-label="Tribunal de Justiça do Rio Grande do Sul — Página inicial">
-        <img src="assets/images/tjrs-logo.png" alt="">
+        <img src="assets/images/tjrs-brasao.png" alt="">
         <span><strong>Tribunal de Justiça</strong><small>Rio Grande do Sul</small></span>
       </a>
       <nav>
         <a class="nav-item" data-route="dashboard" href="#/dashboard"><span data-icon="home"></span><span>Página inicial</span></a>
         <a class="nav-item" data-route="initiatives" href="#/initiatives"><span data-icon="briefcase"></span><span>Iniciativas</span><b class="nav-count" id="nav-initiative-count">200</b></a>
-        <a class="nav-item" data-route="artifacts" href="#/artifacts"><span data-icon="file-text"></span><span>Modelos de Artefatos</span></a>
         <a class="nav-item" data-route="repository" href="#/repository"><span data-icon="folder"></span><span>Repositório do EGP</span></a>
 
-        <button class="nav-item nav-group-toggle" type="button" data-group="reports" aria-expanded="true"><span data-icon="bar-chart"></span><span>Relatórios</span><span class="nav-chevron" data-icon="chevron-down"></span></button>
-        <div class="nav-submenu" data-submenu="reports">
+        <button class="nav-item nav-group-toggle" type="button" data-group="reports" aria-expanded="false"><span data-icon="bar-chart"></span><span>Relatórios</span><span class="nav-chevron" data-icon="chevron-down"></span></button>
+        <div class="nav-submenu" data-submenu="reports" hidden>
           <a class="nav-item" data-route="reports" href="#/reports"><span data-icon="pie-chart"></span><span>Relatórios gerais</span></a>
-          <a class="nav-item" data-route="critical" href="#/critical"><span data-icon="alert-triangle"></span><span>Iniciativas críticas</span></a>
-          <a class="nav-item" data-route="impediments" href="#/impediments"><span data-icon="ban"></span><span>Com impedimentos</span></a>
           <a class="nav-item" data-route="gp-report" href="#/gp-report"><span data-icon="users"></span><span>Relatórios por GP</span></a>
         </div>
 
@@ -56,15 +63,13 @@
         <a class="nav-item" data-route="settings" href="#/settings"><span data-icon="settings"></span><span>Configurações</span></a>
         <a class="nav-item" data-route="governance" href="#/governance"><span data-icon="landmark"></span><span>Governança</span></a>
       </nav>
-      <div class="sidebar__footer">
-        <button class="nav-item" id="help-button" type="button"><span data-icon="help-circle"></span><span>Ajuda e tour guiado</span></button>
-      </div>
     </aside>
 
     <div class="sidebar-scrim" id="sidebar-scrim"></div>
     <main id="conteudo" class="main-content" tabindex="-1">
       <div class="loading-state" aria-live="polite"><span class="spinner"></span><p>Preparando o portfólio…</p></div>
     </main>
+    <footer class="app-footer"><img src="assets/images/tjrs-modelo-rodape.png" alt="Tribunal de Justiça do Rio Grande do Sul"><span><strong>SISEGP</strong><small>Escritório de Gestão de Projetos</small></span><span class="app-footer__unit">Poder Judiciário do Estado do Rio Grande do Sul</span></footer>
   </div>
 
   <div class="command-search" id="global-search" hidden>
@@ -96,6 +101,12 @@
 
   <script src="assets/js/data.js"></script>
   <script src="assets/js/charts.js"></script>
+  <script src="assets/js/initiative-options.js"></script>
+  <script src="assets/js/auxiliary-data.js"></script>
+  <script src="assets/js/initiative-editor.js"></script>
+  <script src="assets/js/demo-completion.js"></script>
+  <script src="assets/js/mvp-views.js"></script>
+  <script src="assets/js/auxiliary-view.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>

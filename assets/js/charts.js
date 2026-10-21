@@ -12,26 +12,35 @@
       const label = typeof key === 'function' ? key(item) : item[key];
       result[label || 'Não informado'] = (result[label || 'Não informado'] || 0) + 1;
       return result;
-    }, {});
+    }, Object.create(null));
   }
 
-  function donut(data, centerLabel, routeFilter) {
+  function donut(data, centerLabel, routeFilter, options = {}) {
     const entries = Object.entries(data).sort((a, b) => b[1] - a[1]);
-    const total = entries.reduce((sum, [, value]) => sum + value, 0) || 1;
+    const total = entries.reduce((sum, [, value]) => sum + value, 0);
+    if(!total)return '<div class="chart-empty">Nenhum dado disponível.</div>';
+    const color=(label,index)=>/^#[0-9a-f]{6}$/i.test(options.colors?.[label]||'')?options.colors[label]:palette[index%palette.length];
     let cursor = 0;
-    const segments = entries.map(([, value], index) => {
+    const segments = entries.map(([label, value], index) => {
       const start = cursor;
       cursor += value / total * 100;
-      return `${palette[index % palette.length]} ${start}% ${cursor}%`;
+      return `${color(label,index)} ${start}% ${cursor}%`;
     }).join(',');
-    return `<div class="donut-wrap"><div class="donut" style="--segments:${segments}" role="img" aria-label="${escapeHtml(centerLabel)}: ${total}"><div class="donut__label">${total}<small>${escapeHtml(centerLabel)}</small></div></div><div class="chart-legend">${entries.map(([label, value], index) => `<${routeFilter ? 'button' : 'div'} ${routeFilter ? `class="legend-item panel-action chart-filter" data-filter-key="${escapeHtml(routeFilter)}" data-filter-value="${escapeHtml(label)}"` : 'class="legend-item"'}><i class="legend-dot" style="background:${palette[index % palette.length]}"></i><span>${escapeHtml(label)}</span><b>${value}</b></${routeFilter ? 'button' : 'div'}>`).join('')}</div></div>`;
+    return `<div class="donut-wrap"><div class="donut" style="--segments:${segments}" role="img" aria-label="${escapeHtml(centerLabel)}: ${total}"><div class="donut__label">${total}<small>${escapeHtml(centerLabel)}</small></div></div><div class="chart-legend">${entries.map(([label, value], index) => `<${routeFilter ? 'button' : 'div'} ${routeFilter ? `class="legend-item panel-action chart-filter" data-filter-key="${escapeHtml(routeFilter)}" data-filter-value="${escapeHtml(label)}"` : 'class="legend-item"'} title="${escapeHtml(label)}: ${value}"><i class="legend-dot" style="background:${color(label,index)}"></i><span>${escapeHtml(label)}</span><b>${value}</b></${routeFilter ? 'button' : 'div'}>`).join('')}</div></div>`;
   }
 
   function bars(data, options = {}) {
     let entries = Object.entries(data).sort((a, b) => b[1] - a[1]);
     if (options.limit) entries = entries.slice(0, options.limit);
+    if(!entries.length)return '<div class="chart-empty">Nenhum dado disponível.</div>';
     const max = Math.max(...entries.map(([, value]) => value), 1);
     return `<div class="bar-chart" role="img" aria-label="${escapeHtml(options.label || 'Gráfico de barras')}">${entries.map(([label, value], index) => `<div class="bar-row"><span title="${escapeHtml(label)}">${escapeHtml(options.short ? options.short(label) : label)}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(2, value / max * 100)}%;--bar-color:${options.colors ? options.colors[index % options.colors.length] : palette[index % palette.length]}" title="${escapeHtml(label)}: ${value}"></div></div><b>${value}</b></div>`).join('')}</div>`;
+  }
+
+  function columns(data, title='Distribuição') {
+    const entries=Object.entries(data),max=Math.max(1,...entries.map(([,n])=>n));
+    if(!entries.some(([,n])=>n>0))return '<div class="chart-empty">Nenhum dado disponível.</div>';
+    return `<div class="column-chart" role="img" aria-label="${escapeHtml(title)}">${entries.map(([label,n],index)=>`<div class="column-chart__item" title="${escapeHtml(label)}: ${n}"><strong>${n}</strong><div class="column-chart__track"><div style="height:${n/max*100}%;background:${palette[index%palette.length]}"></div></div><span>${escapeHtml(label)}</span></div>`).join('')}</div>`;
   }
 
   function line(values, labels, options = {}) {
@@ -65,5 +74,5 @@
     return result;
   }
 
-  window.AppCharts = { palette, counts, donut, bars, line, progressBuckets, escapeHtml };
+  window.AppCharts = { palette, counts, donut, bars, columns, line, progressBuckets, escapeHtml };
 })();
